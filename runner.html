@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
 
-<!-- Myles Barrett's Endless Runner Game
+<!-- Myles Barrett's & Erick Callisaya's Endless Runner Game
 	 Created July 11, 2023 -->
 
 <head>
@@ -16,15 +16,85 @@
 	</canvas>
 	
 	<script>
-		var c = document.getElementById("myCanvas");
-		var ctx = c.getContext("2d");
-		// Create gradient
-		var grd = ctx.createLinearGradient(0,0,200,0);
-		grd.addColorStop(0,"navy");
-		grd.addColorStop(1,"white");
-		// Fill with gradient
-		ctx.fillStyle = grd;
-		ctx.fillRect(10,10,400,150);
+		const canvas = document.getElementById("myCanvas");
+		const ctx=canvas.getContext("2d");
+
+		ctx.font="12px Comic Sans MS";
+		ctx.fillStyle = "red";
+		ctx.textAlign = "start";
+		ctx.fillText("Hello World", 10, 15);
+		
+		// Creates an image object for the porcipine
+		const image = new Image();
+		image.src = "porc.png";
+		// Set the initial position of the porc
+		let x = 300;
+		const imageSize = 
+		{
+			width: 30,
+			height: 30
+		};
+		
+		var timer; 
+		var newTime = 0; // seconds
+
+		// What to do when the timer runs out
+		function gameOver() 
+		{
+			// This cancels the setInterval, so the updateTimer stops getting called
+			clearInterval(timer);
+		}
+
+		function updateTimer() 
+		{
+			if(newTime >= 0)
+			{
+				newTime = newTime + 1;
+			}
+			
+			else 
+			{
+				gameOver();
+			}
+		}
+
+		//Called after play is sent during the start screen scene
+		function start() 
+		{
+			newTime = 0;
+		
+			// setInterval is a built-in function that will call the given function
+			// every N milliseconds (1 second = 1000 ms)
+			timer = setInterval(updateTimer, 1000);
+  
+			// It will be a whole second before the time changes, so we'll call the update
+			// once ourselves
+			updateTimer();
+		}
+		
+		
+		// Function to draw the image on the canvas
+		function drawImage() 
+		{
+		// Clear the canvas
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+		// Draw the image
+		ctx.drawImage(image, x, 200, imageSize.width, imageSize.height);
+		ctx.fillText(newTime, 10, 15);
+
+		// Update the x position for the next frame
+		x -= 1; // Adjust the value to change the speed of movement
+
+		// Request the next animation frame
+		requestAnimationFrame(drawImage);
+		}
+		
+		window.onload = function() 
+		{
+			start();
+			drawImage();
+		}
 	</script>
 </body>
 </html>
