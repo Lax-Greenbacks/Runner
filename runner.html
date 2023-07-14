@@ -25,10 +25,16 @@
 		ctx.fillText("Hello World", 10, 15);
 		
 		// Creates an image object for the porcipine
-		const image = new Image();
-		image.src = "porc.png";
+		const porcImage = new Image();
+		const flappyImage = new Image();
+		flappyImage.src = "flappy.png";
+		porcImage.src = "porc.png";
+
 		// Set the initial position of the porc
 		let x = 300;
+		let y = 200;
+        var spaceReleased = false;
+
 		const imageSize = 
 		{
 			width: 30,
@@ -80,15 +86,39 @@
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 		// Draw the image
-		ctx.drawImage(image, x, 200, imageSize.width, imageSize.height);
-		ctx.fillText(newTime, 10, 15);
+			ctx.drawImage(porcImage, x, 200, imageSize.width, imageSize.height);
+			ctx.drawImage(flappyImage, 20, y, 50, imageSize.height);
+			ctx.fillText(newTime, 10, 15);
 
 		// Update the x position for the next frame
-		x -= 1; // Adjust the value to change the speed of movement
+			x -= 1; // Adjust the value to change the speed of movement
+
+			if (y < 200)
+				y += 1;
+
+			if (y === 200)
+				spaceReleased = false;
+
 
 		// Request the next animation frame
-		requestAnimationFrame(drawImage);
+			requestAnimationFrame(drawImage);
+			
 		}
+
+        document.addEventListener('keypress', function(event)
+		{
+			//if (y === 200)
+			if ((event.key === ' ' || event.keyCode === 32) && spaceReleased == false)
+			{
+				y -= 10;
+			}
+		});
+
+        document.addEventListener('keyup', function (event) {
+            if (event.key === ' ' || event.keyCode === 32) {
+				spaceReleased = true;
+            }
+        });
 		
 		window.onload = function() 
 		{
