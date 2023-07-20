@@ -82,35 +82,34 @@
 		// Function to draw the image on the canvas
 		function drawImage() 
 		{
-		// Clear the canvas
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
+			// Clear the canvas
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-		// Draw the image
+			// Draw the image
 			ctx.drawImage(porcImage, x, 200, imageSize.width, imageSize.height);
 			ctx.drawImage(flappyImage, 20, y, 50, imageSize.height);
 			ctx.fillText(newTime, 10, 15);
 
-		// Update the x position for the next frame
+			// Update the x position for the next frame
 			x -= 1; // Adjust the value to change the speed of movement
 
-			if (y < 200)
+			if (y < 200 && spaceReleased == true)
 				y += 1;
 
 			if (y === 200)
 				spaceReleased = false;
 
 
-		// Request the next animation frame
+			// Request the next animation frame
 			requestAnimationFrame(drawImage);
 			
 		}
 
         document.addEventListener('keypress', function(event)
 		{
-			//if (y === 200)
 			if ((event.key === ' ' || event.keyCode === 32) && spaceReleased == false)
 			{
-				y -= 10;
+				y -= 6;
 			}
 		});
 
