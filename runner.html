@@ -33,7 +33,8 @@
 		porcImage.src = "porc.png";
 
 		// Set the initial position of the porc
-		let x = 300;
+		var porcs = []; //porc list to loop through each porc object to redraw
+		let x = 500;
 		let y = 200;
         var spaceReleased = false;
 
@@ -41,6 +42,11 @@
 		{
 			width: 30,
 			height: 30
+		};
+
+		const porcObject =
+		{
+			xPos: 400
 		};
 		
 		var timer; 
@@ -79,16 +85,24 @@
 			// once ourselves
 			updateTimer();
 		}
-		
-		
+
+		function decrementXPos()
+		{
+			porcObject.xPos -= 1;
+		}
+
+
 		// Function to draw the image on the canvas
 		function drawImage() 
 		{
+
 		// Clear the canvas
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 		// Draw the image
-			ctx.drawImage(porcImage, x, 200, imageSize.width, imageSize.height);
+			porcs.forEach(decrementXPos);
+
+			ctx.drawImage(porcImage, porcObject.xPos, 200, imageSize.width, imageSize.height);
 			ctx.drawImage(flappyImage, 20, y, 50, imageSize.height);
 			ctx.fillText(newTime, 10, 15);
 
@@ -100,6 +114,10 @@
 
 			if (y === 200)
 				spaceReleased = false;
+
+			//cheap kill/respawn
+			if (x < 0)
+				x = 500;
 
 
 		// Request the next animation frame
